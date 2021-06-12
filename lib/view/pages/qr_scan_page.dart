@@ -15,16 +15,23 @@ class _QrScanPageState extends State<QrScanPage> {
     return Scaffold(
       body: QRView(
           key: qrKey,
+          overlay: QrScannerOverlayShape(
+            borderColor: Colors.red,
+            borderRadius: 10,
+            borderLength: 30,
+            borderWidth: 10,
+          ),
           onQRViewCreated: (QRViewController qrViewController) {
             this.qrViewController = qrViewController;
             qrViewController.scannedDataStream.listen((qrData) {
+              qrViewController.pauseCamera();
               final String qrCode = qrData.code;
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => QrScanResultPage(
                             qrCode: '$qrCode',
-                          )));
+                          ))).then((value) => qrViewController.resumeCamera());
             });
           }),
     );

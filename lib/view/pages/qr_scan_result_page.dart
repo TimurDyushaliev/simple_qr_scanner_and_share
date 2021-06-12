@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 
 class QrScanResultPage extends StatelessWidget {
   final String qrCode;
 
-  QrScanResultPage({this.qrCode=''});
+  QrScanResultPage({this.qrCode = ''});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,16 @@ class QrScanResultPage extends StatelessWidget {
         title: Text('Результат сканирования'),
       ),
       body: Center(
-        child: Text(qrCode),
+        child: GestureDetector(
+          onTap: () {
+            Share.share(qrCode);
+          },
+          child: Text(qrCode,
+              style: TextStyle(
+                  fontSize: 17,
+                  color: Colors.blueAccent,
+                  decoration: TextDecoration.underline)),
+        ),
       ),
     );
   }
